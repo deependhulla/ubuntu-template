@@ -7,7 +7,13 @@ apt-get update
 apt-get -y full-upgrade
 apt -y install locales whiptail chrony 
 
-apt -y  install vim jq conntrack openssh-server locales screen net-tools git mc tmux sendemail \
+CFG_HOSTNAME_FQDN=`hostname -f`
+echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
+echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
+echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections
+echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections
+
+apt -y install vim jq postfix conntrack openssh-server locales screen net-tools git mc tmux sendemail \
 sudo wget curl ethtool bridge-utils iptraf-ng traceroute telnet software-properties-common \
 dirmngr parted gdisk apt-transport-https whiptail rsyslog lsb-release iptables ca-certificates iputils-ping \
 debconf-utils gnupg pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh apache2 \
