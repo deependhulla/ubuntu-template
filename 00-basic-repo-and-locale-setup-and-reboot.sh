@@ -7,11 +7,11 @@ apt-get update
 apt-get -y full-upgrade
 apt-get -y install locales 
 
-apt -y  install vim chrony openssh-server locales screen net-tools git mc  \
-sudo wget curl ethtool iptraf-ng traceroute telnet software-properties-common \
-dirmngr parted gdisk apt-transport-https lsb-release ca-certificates iputils-ping \
-debconf-utils pwgen xfsprogs iftop htop multitail net-tools elinks pssh apache2 \
-gnupg2 zip tar pv rar unrar rsync unzip 
+apt -y  install vim chrony jq conntrack openssh-server locales screen net-tools git mc tmux sendemail \
+sudo wget curl ethtool bridge-utils iptraf-ng traceroute telnet software-properties-common \
+dirmngr parted gdisk apt-transport-https whiptail lsb-release iptables ca-certificates iputils-ping \
+debconf-utils gnupg nfs-common pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh apache2 \
+socat ipset gnupg2 zip tar pv rar unrar rsync unzip vnstat ebtables openvswitch-switch 
 
 ## set to India IST timezone -- You can dissable it if needed
 timedatectl set-timezone 'Asia/Kolkata'
@@ -59,6 +59,11 @@ printf '%s\n' '#!/bin/bash'  | tee -a /etc/rc.local 1>/dev/null
 echo "sysctl -w net.ipv6.conf.all.disable_ipv6=1" >>/etc/rc.local
 echo "sysctl -w net.ipv6.conf.default.disable_ipv6=1" >> /etc/rc.local
 echo "sysctl vm.swappiness=0" >> /etc/rc.local
+echo "swapoff -a" >> /etc/rc.local
+echo "modprobe overlay" >> /etc/rc.local
+echo "modprobe br_netfilter" >> /etc/rc.local
+echo "sysctl -w net.ipv4.ip_forward=1" >> /etc/rc.local
+
 echo "exit 0" >> /etc/rc.local
 chmod 755 /etc/rc.local
 ## need like autoexe bat on startup
@@ -81,6 +86,25 @@ echo " WantedBy=multi-user.target" >> /etc/systemd/system/rc-local.service
 systemctl enable rc-local
 systemctl start rc-local
 
+
+# Enable IP forwarding for routing purposes
+sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
+
+
+# Disable swap for Kubernetes
+sed -i '/swap/s/^/#/' /etc/fstab
+swapoff -a
+## Enable ip forward - routing..
+sysctl -w net.ipv4.ip_forward=1
+
+# Kubernetes prerequisites extra
+cat <<EOF > /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+sysctl --system
+
 ## useful if rsyslog is used
 #sed -i "s/#RateLimitIntervalSec=30s/RateLimitIntervalSec=0/"  /etc/systemd/journald.conf
 #sed -i "s/#RateLimitBurst=10000/RateLimitBurst=0/"  /etc/systemd/journald.conf
@@ -97,10 +121,20 @@ echo "syntax on" >> ~/.vimrc
 echo "\"set mouse=a/g" >  /etc/skel/.vimrc
 echo "syntax on" >> /etc/skel/.vimrc
 
-##Comment this if you do not want root login via ssh activated using port 7722
+# Optional: Enable root login over SSH on custom port (7722)
+# Uncomment the following to enable this:
 #sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
-#sed -i "s/#Port 22/Port 7722/g" /etc/ssh/sshd_config
+# sed -i "s/#Port 22/Port 7722/g" /etc/ssh/sshd_config
 systemctl restart ssh
+
+## if any old packages to remove
+apt -y autoremove
+
+# Disable firewall  services --intially ..unless you are ready
+systemctl stop ufw 2>/dev/null
+systemctl disable ufw 2>/dev/null
+systemctl stop apparmor 2>/dev/null
+systemctl disable apparmor 2>/dev/null
 
 hostname -f
 ping `hostname -f` -c 2
