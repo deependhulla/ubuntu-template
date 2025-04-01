@@ -9,7 +9,7 @@ apt -y install locales whiptail
 
 apt -y  install vim chrony jq conntrack openssh-server locales screen net-tools git mc tmux sendemail \
 sudo wget curl ethtool bridge-utils iptraf-ng traceroute telnet software-properties-common \
-dirmngr parted gdisk apt-transport-https whiptail lsb-release iptables ca-certificates iputils-ping \
+dirmngr parted gdisk apt-transport-https whiptail rsyslog lsb-release iptables ca-certificates iputils-ping \
 debconf-utils gnupg pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh apache2 \
 socat ipset gnupg2 zip tar pv rar unrar rsync unzip vnstat ebtables openvswitch-switch 
 
