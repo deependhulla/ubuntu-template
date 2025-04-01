@@ -125,11 +125,11 @@ echo "syntax on" >> /etc/skel/.vimrc
 # Uncomment the following to enable this:
 #sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
 # sed -i "s/#Port 22/Port 7722/g" /etc/ssh/sshd_config
-systemctl restart ssh
+#systemctl restart ssh
 
 ## if any old packages to remove
 apt -y autoremove
-
+apt-get clean all
 # Disable firewall  services --intially ..unless you are ready
 systemctl stop ufw 2>/dev/null
 systemctl disable ufw 2>/dev/null
