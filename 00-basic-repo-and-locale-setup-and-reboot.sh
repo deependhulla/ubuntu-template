@@ -17,7 +17,7 @@ apt -y install vim jq postfix conntrack openssh-server locales screen net-tools 
 sudo wget curl ethtool bridge-utils iptraf-ng traceroute telnet software-properties-common \
 dirmngr parted gdisk apt-transport-https whiptail rsyslog lsb-release iptables ca-certificates iputils-ping \
 debconf-utils gnupg pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh apache2 \
-socat ipset gnupg2 zip tar pv rar unrar rsync unzip vnstat ebtables  
+socat ipset iptables-persistent gnupg2 zip tar pv rar unrar rsync unzip vnstat ebtables  
 
 ## set to India IST timezone -- You can dissable it if needed
 timedatectl set-timezone 'Asia/Kolkata'
@@ -112,10 +112,19 @@ EOF
 sysctl --system
 
 ## useful if rsyslog is used
-#sed -i "s/#RateLimitIntervalSec=30s/RateLimitIntervalSec=0/"  /etc/systemd/journald.conf
-#sed -i "s/#RateLimitBurst=10000/RateLimitBurst=0/"  /etc/systemd/journald.conf
-#systemctl restart systemd-journald
-#systemctl daemon-reload
+sed -i "s/#RateLimitIntervalSec=30s/RateLimitIntervalSec=0/"  /etc/systemd/journald.conf
+sed -i "s/#RateLimitBurst=10000/RateLimitBurst=0/"  /etc/systemd/journald.conf
+systemctl restart systemd-journald
+systemctl daemon-reload
+
+sed -i -e 's/*.*;auth,authpriv.none\t/*.*;auth,authpriv.none,mail.none\t/' /etc/rsyslog.d/50-default.conf
+sed -i -e 's/mail.err\t/#mail.err\t/' /etc/rsyslog.d/50-default.conf
+echo > /var/log/mail.log
+/bin/rm -rf /var/log/mail.info
+/bin/rm -rf /var/log/mail.warn
+/bin/rm -rf /var/log/mail.err
+
+
 
 ## make cpan auto yes for pre-requist modules of perl
 #(echo y;echo o conf prerequisites_policy follow;echo o conf commit)|cpan 1>/dev/null
@@ -126,6 +135,8 @@ echo "syntax on" >> ~/.vimrc
 ##  for  other new users
 echo "\"set mouse=a/g" >  /etc/skel/.vimrc
 echo "syntax on" >> /etc/skel/.vimrc
+
+
 
 # Optional: Enable root login over SSH on custom port (7722)
 # Uncomment the following to enable this:
