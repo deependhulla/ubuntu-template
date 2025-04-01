@@ -92,6 +92,10 @@ echo " WantedBy=multi-user.target" >> /etc/systemd/system/rc-local.service
 systemctl enable rc-local
 systemctl start rc-local
 
+## default only ocalhost for postfix unless latter for mail-server
+postconf -e "inet_interfaces = loopback-only"
+systemctl restart postfix
+
 
 # Enable IP forwarding for routing purposes
 sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
