@@ -5,7 +5,7 @@ DEBIAN_FRONTEND=noninteractive
 
 apt-get update
 apt-get -y full-upgrade
-apt-get -y install locales 
+apt -y install locales whiptail  
 
 apt -y  install vim chrony jq conntrack openssh-server locales screen net-tools git mc tmux sendemail \
 sudo wget curl ethtool bridge-utils iptraf-ng traceroute telnet software-properties-common \
