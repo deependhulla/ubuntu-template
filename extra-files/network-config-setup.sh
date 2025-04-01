@@ -1,12 +1,11 @@
 #!/bin/bash
 
 
-hostipandsub=192.168.30.123/24
-gateway=192.168.30.242
-interface=enp1s0
+hostipandsub=192.168.40.239/24
+gateway=192.168.40.200
+interface=ens18
 DNS=8.8.8.8
 
-apt-get -y  install bridge-utils openvswitch-switch ethtool net-tools
 
 echo >  /etc/netplan/50-cloud-init.yaml
 echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
