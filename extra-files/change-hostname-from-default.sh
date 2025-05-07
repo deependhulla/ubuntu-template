@@ -2,7 +2,7 @@
 
 ## only to change from default (ubuntu24-template) -- not for reassign -- 
 
-HOSTNAME=myweb.deependhulla.com
+HOSTNAME=circle.clubemerald.in
 
 sed -i -e "s/ubuntu24-template/$HOSTNAME/" /etc/hosts
 sed -i -e "s/ubuntu24-template/$HOSTNAME/" /etc/hostname
