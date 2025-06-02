@@ -16,7 +16,7 @@ echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debcon
 apt -y install vim jq postfix conntrack openssh-server locales screen net-tools git mc tmux sendemail \
 sudo wget curl ethtool bridge-utils iptraf-ng traceroute telnet software-properties-common \
 dirmngr parted gdisk apt-transport-https whiptail rsyslog lsb-release iptables ca-certificates iputils-ping \
-debconf-utils gnupg pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh apache2 \
+debconf-utils gnupg pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh ubuntu-advantage-tools \
 socat ipset iptables-persistent gnupg2 zip tar pv rar unrar rsync unzip vnstat ebtables  
 
 ## set to India IST timezone -- You can dissable it if needed
