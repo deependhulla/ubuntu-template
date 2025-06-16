@@ -1,9 +1,9 @@
 #!/bin/bash
 
 
-hostipandsub=192.168.40.239/24
-gateway=192.168.40.200
-interface=ens18
+hostipandsub=192.168.3.228/24
+gateway=192.168.3.249
+interface=enp6s18
 DNS=8.8.8.8
 
 
