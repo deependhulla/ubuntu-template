@@ -14,7 +14,7 @@ echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debcon
 echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections
 
 apt -y install vim jq yq fzf postfix conntrack openssh-server locales screen net-tools git mc tmux sendemail \
-sudo wget curl ethtool bridge-utils iptraf-ng traceroute atop telnet arping software-properties-common \
+sudo wget curl ethtool bridge-utils nmon iptraf-ng traceroute atop telnet arping software-properties-common \
 dirmngr parted gdisk apt-transport-https whiptail lsb-release iptables ca-certificates iputils-ping \
 debconf-utils gnupg pwgen xfsprogs nmap iftop htop multitail net-tools elinks pssh ubuntu-advantage-tools \
 socat ipset iptables-persistent gnupg2 zip tar pv auditd rar itop unrar rsync unzip vnstat ebtables  
