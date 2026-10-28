@@ -67,7 +67,7 @@ echo "sysctl -w net.ipv6.conf.default.disable_ipv6=1" >> /etc/rc.local
 echo "sysctl vm.swappiness=0" >> /etc/rc.local
 echo "swapoff -a" >> /etc/rc.local
 echo "modprobe overlay" >> /etc/rc.local
-echo "modprobe br_netfilter" >> /etc/rc.local
+echo "#modprobe br_netfilter" >> /etc/rc.local
 echo "sysctl -w net.ipv4.ip_forward=1" >> /etc/rc.local
 
 echo "exit 0" >> /etc/rc.local
@@ -111,6 +111,7 @@ sysctl -w net.ipv4.ip_forward=1
 cat <<EOF > /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-arptables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 sysctl --system
