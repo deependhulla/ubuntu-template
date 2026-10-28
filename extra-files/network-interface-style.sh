@@ -41,6 +41,7 @@ iface lo inet loopback
 
 auto $IFACE
 iface $IFACE inet static
+    pre-up sleep 4
     address $CURRENT_IP
     netmask $NETMASK
     gateway $CURRENT_GW
