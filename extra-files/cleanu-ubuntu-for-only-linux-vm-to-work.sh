@@ -4,8 +4,8 @@ apt purge snapd -y
 apt purge -y gnome-software-plugin-snap
 
 touch /etc/cloud/cloud-init.disabled
-systemctl disable --now cloud-init cloud-init-local cloud-config cloud-final
-systemctl disable --now apport
+systemctl disable --now cloud-init cloud-init-local cloud-config cloud-final 2>/dev/null
+systemctl disable --now apport 
 systemctl disable --now multipathd
 systemctl disable --now ModemManager
 systemctl disable --now packagekit
