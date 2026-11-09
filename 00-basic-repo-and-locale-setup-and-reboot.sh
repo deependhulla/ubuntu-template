@@ -100,6 +100,14 @@ systemctl restart postfix
 # Enable IP forwarding for routing purposes
 sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g" /etc/sysctl.conf
 
+## Disable pro ---for community 
+#pro disable esm-apps 1>/dev/null 2>/dev/null
+#systemctl mask esm-cache.service 1>/dev/null 2>/dev/null
+#systemctl stop systemd-resolved.service 
+
+#get a clean login(include disabling the MOTD), simply run:
+touch $HOME/.hushlogin
+
 
 # Disable swap for Kubernetes
 sed -i '/swap/s/^/#/' /etc/fstab
